@@ -84,19 +84,71 @@ class BinarySearchTree {
     }
 }
 
-  remove(/* data */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  remove(data) {
+    this.head = removeNode(this.head, data)
+
+      function removeNode(currentNode, data) {
+        if (!currentNode) {
+          return null;
+        }
+        
+
+        if (data < currentNode.data) {
+            currentNode.left = removeNode(currentNode.left, data);
+        } else if(data > currentNode.data) {
+          currentNode.right = removeNode(currentNode.right, data)
+        } else {
+            if (!currentNode.left && !currentNode.right) {
+              currentNode = null;
+            }
+            else if (!currentNode.left) {
+              currentNode = currentNode.right;
+            }
+            else if (!currentNode.right) {
+              currentNode = currentNode.left;
+            } else {
+
+            let min_value = findMin(currentNode.right);
+            currentNode.data = min_value;
+            currentNode.right = removeNode(currentNode.right, min_value);
+
+
+            function findMin(currentNode) {
+              while (currentNode.left) {
+                currentNode = currentNode.left
+              }
+              return currentNode.data;
+            }
+
+            
+          }
+        }
+        return currentNode;
+      }
   }
 
   min() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+    let current_value = this.head;
+    return findMinValue(current_value);
+
+    function findMinValue(value) {
+      while (value.left) {
+        value = value.left
+      }
+      return value.data;
+    }
   }
 
   max() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+    let current_value = this.head;
+    return findMinValue(current_value);
+
+    function findMinValue(value) {
+      while (value.right) {
+        value = value.right
+      }
+      return value.data;
+    }
   }
 }
 
